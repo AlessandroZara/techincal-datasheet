@@ -1,0 +1,66 @@
+{
+  "name": "techincal-sheet",
+  "version": "0.1.0",
+  "author": "Alessandro Zara",
+  "description": "Applicazione di test schede tecniche",
+  "main": "public/electron.js",
+  "productName": "Applicazione di test schede tecniche",
+  "homepage": "./",
+  "private": true,
+  "dependencies": {
+    "@react-pdf/renderer": "^3.1.6",
+    "@testing-library/jest-dom": "^5.16.5",
+    "@testing-library/react": "^13.4.0",
+    "@testing-library/user-event": "^13.5.0",
+    "bootstrap": "^5.2.3",
+    "file-saver": "^2.0.5",
+    "jquery": "^3.6.3",
+    "jspdf": "^2.5.1",
+    "popper.js": "^1.16.1",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "react-scripts": "5.0.1",
+    "web-vitals": "^2.1.4"
+  },
+  "build": {
+    "appId": "my_app_technical.id",
+    "mac": {
+      "category": "your.app.category.type"
+    }
+  },
+  "scripts": {
+    "start": "electron-forge start",
+    "start3":"react-scripts start",
+    "start2":"set BROWSER=none && react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject",
+    "electron": "react-scripts build && electron .",
+    "start-electron": "set ELECTRON_START_URL=http://localhost:3000 && electron .",
+    "package": "electron-builder build --win -c.extraMetadata.main=build/electron.js --publish never",
+    "publish": "electron-builder build --mac --win --publish always"
+  },
+  "eslintConfig": {
+    "extends": [
+      "react-app",
+      "react-app/jest"
+    ]
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  },
+  "devDependencies": {
+    "electron": "^23.1.2",
+    "electron-builder": "^23.6.0",
+    "path": "^0.12.7"
+  }
+}
