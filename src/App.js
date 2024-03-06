@@ -10,10 +10,11 @@ import {
 } from "@react-pdf/renderer";
 import "bootstrap/dist/css/bootstrap.min.css";
 import logo from "./image/logo.png"
+import * as XLSX from "xlsx"
 // import Invoice from './components/reports/Invoice'
 // import invoice from './data/invoice'
 
-const TechnicalSheet = ({ data, image1, image2,nameFile }) => (
+const TechnicalSheet = ({ data,data2, image1, image2,nameFile }) => (
   <Document>
     <Page size="A4" style={styles.page}>
     <View style={styles.header}>
@@ -30,7 +31,7 @@ const TechnicalSheet = ({ data, image1, image2,nameFile }) => (
           <View style={styles.paramsWrapper}>
             <View style={styles.param}>
               <Text style={styles.paramLabel}>Voltaggio:</Text>
-              <Text style={styles.paramValue}>{data.voltaggio}</Text>
+              <Text style={styles.paramValue}>{data2[0]}</Text>
             </View>
             <View style={styles.param}>
               <Text style={styles.paramLabel}>Altezza:</Text>
@@ -147,14 +148,33 @@ const styles = StyleSheet.create({
 
 const App = () => {
   const [data, setData] = useState({});
+  const [data1, setData1] = useState([1]);
   const [image1, setImage1] = useState(undefined);
   const [image2, setImage2] = useState(undefined);
   const [error, setError] = useState("");
   const [nameFile, setNameFile] = useState("");
 
+  const readFile = (e) => {
+    if (e.target.files.length > 0) {
+      const reader = new FileReader();
+      reader.onload = (event) => {
+        const wb = XLSX.read(event.target.result, { type: "array" });
+        const ws = wb.Sheets[wb.SheetNames[0]];
+        const jsonData = XLSX.utils.sheet_to_json(ws);
+        return setData1(jsonData);
+      };
+      reader.readAsArrayBuffer(e.target.files[0]);
+    }
+  };
+  
+
+ const valori = Object.values(data1[0])
+
+
   const handleChange = (e) => {
     if (image1 && image2 !== undefined) {
       setData({ ...data, [e.target.name]: e.target.value });
+            
     } else {
       setError("Inserisci Prima Le foto");
       e.target.value = "";
@@ -165,6 +185,7 @@ const App = () => {
   const handleImage1Change = (e) => {
     if (e.target.files.length !== 0) {
       setImage1(URL.createObjectURL(e.target.files[0]));
+     
     }
     // setImage1(URL.createObjectURL(e.target.files[0]));
   };
@@ -178,6 +199,9 @@ const App = () => {
     setNameFile(e.target.value); // Imposta nameFile dal nuovo valore
     console.log (nameFile)
   };
+
+
+
 useEffect(() => {
 if (error){
   setTimeout(function() {
@@ -215,16 +239,26 @@ if (error){
         <input type="file" name="fotoDisegno" onChange={handleImage2Change} />
         <br />
         {error && <div style={{ color: "red",fontWeight:"bold" }}>{error}</div>}
+        
         <PDFDownloadLink
-          document={
-            <TechnicalSheet data={data} image1={image1} image2={image2} nameFile={nameFile} />
-          }
-          fileName={nameFile}
-        >
-          <button className="btn btn-primary">Genera PDF</button>
-        </PDFDownloadLink>
-      </div>
-      {/* <Invoice invoice={invoice}/> */}
+        document={
+          <TechnicalSheet
+            data={data}
+            data2={valori} // Pass form data to TechnicalSheet
+            image1={image1}
+            image2={image2}
+            nameFile={nameFile}
+          />
+        }
+        fileName={nameFile}
+      >
+        <button className="btn btn-primary">Genera PDF</button>
+      </PDFDownloadLink>
+     </div>
+      <form>
+        <label htmlFor="upload">Upload File</label>
+        <input type="file" name="upload" id="upload" onChange={readFile} />
+      </form>
     </div>
   );
 };
