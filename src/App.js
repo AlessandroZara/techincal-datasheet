@@ -14,7 +14,7 @@ import * as XLSX from "xlsx"
 // import Invoice from './components/reports/Invoice'
 // import invoice from './data/invoice'
 
-const TechnicalSheet = ({ data,data2, image1, image2,nameFile }) => (
+const TechnicalSheet = ({ data2, image1, image2,nameFile }) => (
   <Document>
     <Page size="A4" style={styles.page}>
     <View style={styles.header}>
@@ -35,19 +35,19 @@ const TechnicalSheet = ({ data,data2, image1, image2,nameFile }) => (
             </View>
             <View style={styles.param}>
               <Text style={styles.paramLabel}>Altezza:</Text>
-              <Text style={styles.paramValue}>{data.altezza}</Text>
+              <Text style={styles.paramValue}>{data2[1]}</Text>
             </View>
             <View style={styles.param}>
               <Text style={styles.paramLabel}>Lunghezza:</Text>
-              <Text style={styles.paramValue}>{data.lunghezza}</Text>
+              <Text style={styles.paramValue}>{data2[2]}</Text>
             </View>
             <View style={styles.param}>
               <Text style={styles.paramLabel}>Profondità:</Text>
-              <Text style={styles.paramValue}>{data.profondità}</Text>
+              <Text style={styles.paramValue}>{data2[3]}</Text>
             </View>
             <View style={styles.param}>
               <Text style={styles.paramLabel}>Isolamento:</Text>
-              <Text style={styles.paramValue}>{data.isolamento}</Text>
+              <Text style={styles.paramValue}>{data2[4]}</Text>
             </View>
           </View>
         </View>
@@ -169,6 +169,7 @@ const App = () => {
   
 
  const valori = Object.values(data1[0])
+ console.log(valori)
 
 
   const handleChange = (e) => {
